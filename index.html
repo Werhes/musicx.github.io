@@ -4,6 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>MusicX - Твоя музыка без границ</title>
+    <link rel="icon" type="image/x-icon" href="https://raw.githubusercontent.com/Fooxboy/MusicX-WPF/refs/heads/master/MusicX/Assets/icon.ico">
     <style>
         /* Базовые стили и переменные */
         :root {
@@ -56,6 +57,7 @@
             width: 40px;
             height: 40px;
             border-radius: 10px;
+            object-fit: contain; /* Чтобы иконка не растягивалась */
         }
 
         .github-link {
@@ -171,30 +173,24 @@
 <body>
 
     <div class="container">
-        <!-- Навигация -->
         <header>
             <a href="#" class="logo">
-                <!-- Укажи точное имя файла логотипа из твоей папки src/images/ -->
-                <img src="https://raw.githubusercontent.com/Fooxboy/MusicX-WPF/refs/heads/master/MusicX/Assets/icon.ico" alt="MusicX Logo" onerror="this.src='https://raw.githubusercontent.com/Fooxboy/MusicX-WPF/master/MusicX.Site/musicx-site/src/images/logo.png'">
+                <img src="https://raw.githubusercontent.com/Fooxboy/MusicX-WPF/refs/heads/master/MusicX/Assets/icon.ico" alt="MusicX Logo">
                 MusicX
             </a>
             <a href="https://github.com/Fooxboy/MusicX-WPF" target="_blank" class="github-link">GitHub</a>
         </header>
 
-        <!-- Главный экран -->
         <section class="hero">
             <h1>Твоя музыка без границ</h1>
             <p>Мощный, быстрый и красивый неофициальный плеер для прослушивания музыки из ВКонтакте на Windows.</p>
             <a href="https://github.com/Fooxboy/MusicX-WPF/releases/latest" class="btn">Скачать для Windows</a>
         </section>
 
-        <!-- Скриншот приложения -->
         <section class="app-preview">
-            <!-- Укажи точное имя файла скриншота (например, app.png или screen.png) -->
-            <img src="https://raw.githubusercontent.com/Fooxboy/MusicX-WPF/refs/heads/master/MusicX.Site/musicx-site/src/images/home.png" alt="Скриншот приложения MusicX" onerror="this.src='https://raw.githubusercontent.com/Fooxboy/MusicX-WPF/master/MusicX.Site/musicx-site/src/images/app.png'">
+            <img src="https://raw.githubusercontent.com/Fooxboy/MusicX-WPF/refs/heads/master/MusicX.Site/musicx-site/src/images/home.png" alt="Скриншот приложения MusicX">
         </section>
 
-        <!-- Блок с преимуществами -->
         <section class="features">
             <div class="feature-card">
                 <h3>Современный дизайн</h3>
@@ -210,7 +206,6 @@
             </div>
         </section>
 
-        <!-- Подвал -->
         <footer>
             <p>&copy; 2026 MusicX Team. Проект с открытым исходным кодом.</p>
         </footer>
