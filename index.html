@@ -4,6 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>MusicX - Твоя музыка без границ</title>
+    <!-- Добавляем иконку (favicon) для вкладки в браузере -->
     <link rel="icon" type="image/x-icon" href="https://raw.githubusercontent.com/Fooxboy/MusicX-WPF/refs/heads/master/MusicX/Assets/icon.ico">
     <style>
         /* Базовые стили и переменные */
@@ -14,6 +15,7 @@
             --accent-hover: #d11b5c;
             --text-main: #ffffff;
             --text-muted: #a1a1a6;
+            --overlay-bg: rgba(0, 0, 0, 0.85);
         }
 
         * {
@@ -57,7 +59,7 @@
             width: 40px;
             height: 40px;
             border-radius: 10px;
-            object-fit: contain; /* Чтобы иконка не растягивалась */
+            object-fit: contain;
         }
 
         .github-link {
@@ -123,6 +125,12 @@
             border-radius: 12px;
             box-shadow: 0 20px 40px rgba(0, 0, 0, 0.6);
             border: 1px solid #333;
+            cursor: zoom-in; /* Изменяем курсор, показывая, что можно кликнуть */
+            transition: transform 0.3s;
+        }
+
+        .app-preview img:hover {
+            transform: scale(1.02); /* Легкий эффект при наведении */
         }
 
         /* Особенности */
@@ -163,6 +171,55 @@
             color: var(--text-muted);
         }
 
+        /* --- Стили для полноэкранного режима (Lightbox) --- */
+        #overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: var(--overlay-bg);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            z-index: 1000;
+            opacity: 0;
+            visibility: hidden;
+            transition: opacity 0.4s, visibility 0.4s;
+            cursor: zoom-out; /* Курсор при наведении на фон */
+        }
+
+        #overlay.show {
+            opacity: 1;
+            visibility: visible;
+        }
+
+        #overlay-img {
+            max-width: 90%;
+            max-height: 90%;
+            object-fit: contain;
+            border-radius: 8px;
+            box-shadow: 0 0 30px rgba(0,0,0,0.8);
+            cursor: default; /* На самой картинке курсор обычный */
+        }
+
+        #close-btn {
+            position: absolute;
+            top: 20px;
+            right: 30px;
+            color: white;
+            font-size: 40px;
+            font-weight: bold;
+            cursor: pointer;
+            background: none;
+            border: none;
+            transition: color 0.2s;
+        }
+
+        #close-btn:hover {
+            color: var(--accent-color);
+        }
+
         /* Адаптивность */
         @media (max-width: 768px) {
             .hero h1 { font-size: 2.5rem; }
@@ -173,6 +230,7 @@
 <body>
 
     <div class="container">
+        <!-- Навигация -->
         <header>
             <a href="#" class="logo">
                 <img src="https://raw.githubusercontent.com/Fooxboy/MusicX-WPF/refs/heads/master/MusicX/Assets/icon.ico" alt="MusicX Logo">
@@ -181,16 +239,19 @@
             <a href="https://github.com/Fooxboy/MusicX-WPF" target="_blank" class="github-link">GitHub</a>
         </header>
 
+        <!-- Главный экран -->
         <section class="hero">
             <h1>Твоя музыка без границ</h1>
             <p>Мощный, быстрый и красивый неофициальный плеер для прослушивания музыки из ВКонтакте на Windows.</p>
             <a href="https://github.com/Fooxboy/MusicX-WPF/releases/latest" class="btn">Скачать для Windows</a>
         </section>
 
+        <!-- Скриншот приложения (clickable) -->
         <section class="app-preview">
-            <img src="https://raw.githubusercontent.com/Fooxboy/MusicX-WPF/refs/heads/master/MusicX.Site/musicx-site/src/images/home.png" alt="Скриншот приложения MusicX">
+            <img src="https://raw.githubusercontent.com/Fooxboy/MusicX-WPF/refs/heads/master/MusicX.Site/musicx-site/src/images/home.png" alt="Скриншот приложения MusicX" id="screenshot">
         </section>
 
+        <!-- Блок с преимуществами -->
         <section class="features">
             <div class="feature-card">
                 <h3>Современный дизайн</h3>
@@ -206,10 +267,50 @@
             </div>
         </section>
 
+        <!-- Подвал -->
         <footer>
             <p>&copy; 2026 MusicX Team. Проект с открытым исходным кодом.</p>
         </footer>
     </div>
+
+    <!-- Полноэкранный overlay -->
+    <div id="overlay">
+        <button id="close-btn">&times;</button>
+        <img src="" alt="Крупный вид" id="overlay-img">
+    </div>
+
+    <!-- Скрипт для работы лайтбокса -->
+    <script>
+        const screenshot = document.getElementById('screenshot');
+        const overlay = document.getElementById('overlay');
+        const overlayImg = document.getElementById('overlay-img');
+        const closeBtn = document.getElementById('close-btn');
+
+        // Открытие
+        screenshot.addEventListener('click', () => {
+            overlayImg.src = screenshot.src; // Берем ту же картинку
+            overlay.classList.add('show');
+        });
+
+        // Закрытие при клике на кнопку
+        closeBtn.addEventListener('click', () => {
+            overlay.classList.remove('show');
+        });
+
+        // Закрытие при клике на фон (мимо картинки)
+        overlay.addEventListener('click', (e) => {
+            if (e.target === overlay) { // Проверяем, что кликнули именно по фону, а не по картинке
+                overlay.classList.remove('show');
+            }
+        });
+
+        // Закрытие по кнопке Escape
+        document.addEventListener('keydown', (e) => {
+            if (e.key === 'Escape' && overlay.classList.contains('show')) {
+                overlay.classList.remove('show');
+            }
+        });
+    </script>
 
 </body>
 </html>
